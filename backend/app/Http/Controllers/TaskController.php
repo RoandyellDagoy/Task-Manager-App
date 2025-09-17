@@ -10,9 +10,7 @@ class TaskController extends Controller
     {
         $this->middleware('auth:sanctum');
     }
-    /**
-     * Display a listing of the resource.
-     */
+
     public function index(Request $request)
     {
         $user =auth()->user();
@@ -24,9 +22,6 @@ class TaskController extends Controller
         ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         $data = $request->validate([
@@ -36,9 +31,6 @@ class TaskController extends Controller
         ]);
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(string $id)
     {
         if ($task->user_id !== auth()->id()){
@@ -48,9 +40,6 @@ class TaskController extends Controller
         return $task;
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, string $id)
     {
         if($task->user_id !== auth()->id()){
@@ -67,10 +56,7 @@ class TaskController extends Controller
 
         return response()->json($task);
     }
-
-    /**
-     * Remove the specified resource from storage.
-     */
+    
     public function destroy(Task $task)
     {
         if($task->user_id !== auth()->id()){

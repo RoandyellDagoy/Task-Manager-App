@@ -24,7 +24,7 @@ const Login: React.FC = () => {
   return (
     <div>
       <h1>Login Page</h1>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} autoComplete="off">
         <input
           type="email"
           placeholder="Email"
