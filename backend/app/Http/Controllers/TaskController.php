@@ -15,7 +15,7 @@ class TaskController extends Controller
 
     public function index(Request $request)
     {
-        $user =auth()->user();
+        $user =auth()->user(); 
         $tasks = $user->tasks;
 
         return response()->json([

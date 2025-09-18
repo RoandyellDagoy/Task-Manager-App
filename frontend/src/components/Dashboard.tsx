@@ -74,7 +74,7 @@ useEffect(() => {
 
 
 
-      setTasks([...tasks, res.data.task ?? res.data]);
+      setTasks([...tasks, res.data.data]);
     }
 
     setTitle("");
@@ -127,24 +127,38 @@ useEffect(() => {
       </form>
 
       {/* Task List */}
-      <ul className="space-y-3">
-       {Array.isArray(tasks) && tasks.length > 0 ? (
-          tasks.map((task) => (
-            <li key={task.id} className="card shadow p-4 flex justify-between items-center">
-              <div>
-                <h2 className="font-semibold">{task.title}</h2>
-                <p className="text-gray-600">{task.description}</p>
-              </div>
-              <div className="space-x-2">
-                <button onClick={() => handleEdit(task)} className="btn btn-sm btn-warning">Edit</button>
-                <button onClick={() => handleDelete(task.id)} className="btn btn-sm btn-error">Delete</button>
-              </div>
-            </li>
-          ))
-        ) : (
-          <p className="text-gray-500">No tasks yet</p>
-        )}
-      </ul>
+     <ul className="space-y-3">
+  {Array.isArray(tasks) && tasks.length > 0 ? (
+    tasks.map((task, index) => (
+      <li
+        key={`${task.id}-${index}`}
+        className="card shadow p-4 flex justify-between items-center"
+      >
+        <div>
+          <h2 className="font-semibold">{task.title}</h2>
+          <p className="text-gray-600">{task.description}</p>
+        </div>
+
+        <div className="space-x-2">
+          <button
+            onClick={() => handleEdit(task)}
+            className="btn btn-sm btn-warning"
+          >
+            Edit
+          </button>
+          <button
+            onClick={() => handleDelete(task.id)}
+            className="btn btn-sm btn-error"
+          >
+            Delete
+          </button>
+        </div>
+      </li>
+    ))
+  ) : (
+    <p className="text-gray-500">No tasks yet</p>
+  )}
+</ul>
     </div>
   );
 };
