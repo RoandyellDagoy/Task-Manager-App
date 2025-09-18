@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Task;
+
 
 class TaskController extends Controller
 {
@@ -24,24 +26,40 @@ class TaskController extends Controller
 
     public function store(Request $request)
     {
-        $data = $request->validate([
-            'title' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'status' => 'required|string|in:pending,done',
+        $request->validate(['title' => 'required|string|max:255', 'description' => 'required|string']);
+
+        $user = $request->user();
+        if (! $user) {
+            return response()->json(['message'=> 'Unauthenticated'], 401);
+        }
+
+        $task = $user->tasks()->create([
+            'title' => $request->title,
+            'description' => $request->description,
         ]);
+
+        return response()->json([
+            'success' => true,
+            'data' => $task
+        ], 201);
+
     }
 
     public function show(string $id)
     {
+        $task = Task::findOrFail($id);
+
         if ($task->user_id !== auth()->id()){
             abort(403,'Unauthorized');
         }
 
-        return $task;
+        return response()->json($task);
     }
 
     public function update(Request $request, string $id)
     {
+        $task = Task::findOrFail($id);
+
         if($task->user_id !== auth()->id()){
             abort(403, 'unautorized');
         }
@@ -65,6 +83,6 @@ class TaskController extends Controller
 
         $task->delete();
 
-        return response()->json(['message' => 'message deleted']);
+        return response()->json(['success' => true, 'message' => 'Task Deleted']);
     }
 }

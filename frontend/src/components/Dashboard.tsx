@@ -49,10 +49,11 @@ useEffect(() => {
       await api.put(`/tasks/${editId}`, {
         title,
         description,
+        status: 'pending',
       });
       setTasks(
         tasks.map((t) =>
-          t.id === editId ? { ...t, title, description } : t
+          t.id === editId ? { ...t, title, description} : t
         )
       );
       setEditId(null);
@@ -60,6 +61,7 @@ useEffect(() => {
       const res = await api.post('/tasks', {
         title,
         description,
+        status:"pending",
       });
       const created = res.data?.task ?? res.data?.data;
       if (Array.isArray(created)){

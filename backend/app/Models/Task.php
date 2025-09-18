@@ -10,7 +10,7 @@ class Task extends Model
 {
     use HasFactory;
 
-    // Allow mass assignment
+   
     protected $fillable = [
         'title',
         'description',
@@ -18,7 +18,6 @@ class Task extends Model
         'user_id',
     ];
 
-    // Relationship: Task belongs to a User
     public function user()
     {
         return $this->belongsTo(User::class);
